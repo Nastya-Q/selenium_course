@@ -21,7 +21,8 @@ public class AdminLoginTest {
     @Before
     public void start() {
         ChromeOptions options = new ChromeOptions();
-        options.setCapability("unexpectedAlertBehaviour", "accept");
+        options.addArguments("start-fullscreen");
+        options.setCapability("unexpectedAlertBehaviour", "dismiss");
         driver = new ChromeDriver(options);
         System.out.println(((HasCapabilities) driver).getCapabilities());
         //driver = new InternetExplorerDriver();
