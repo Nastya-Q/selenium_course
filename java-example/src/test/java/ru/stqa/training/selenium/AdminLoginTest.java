@@ -18,15 +18,25 @@ public class AdminLoginTest {
     private WebDriver driver;
     private WebDriverWait wait;
 
+//    @Before
+//    public void start() {
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("start-fullscreen");
+//        options.setCapability("unexpectedAlertBehaviour", "dismiss");
+//        driver = new ChromeDriver(options);
+//        System.out.println(((HasCapabilities) driver).getCapabilities());
+//        //driver = new InternetExplorerDriver();
+//        //driver = new FirefoxDriver();
+//        wait = new WebDriverWait(driver, 10);
+//    }
+
     @Before
+    //launch firefox by old schema (without geckodriver, till FF v. ESR 45)
     public void start() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("start-fullscreen");
-        options.setCapability("unexpectedAlertBehaviour", "dismiss");
-        driver = new ChromeDriver(options);
+        DesiredCapabilities caps = new DesiredCapabilities();
+        caps.setCapability(FirefoxDriver.MARIONETTE, false);
+        driver = new FirefoxDriver(caps);
         System.out.println(((HasCapabilities) driver).getCapabilities());
-        //driver = new InternetExplorerDriver();
-        //driver = new FirefoxDriver();
         wait = new WebDriverWait(driver, 10);
     }
 
