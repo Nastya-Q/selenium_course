@@ -8,10 +8,14 @@ import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.io.File;
 
 public class AdminLoginTest {
 
@@ -30,15 +34,26 @@ public class AdminLoginTest {
 //        wait = new WebDriverWait(driver, 10);
 //    }
 
+//    @Before
+//    //launch firefox by old schema (without geckodriver, till FF v. ESR 45)
+//    public void start() {
+//        DesiredCapabilities caps = new DesiredCapabilities();
+//        caps.setCapability(FirefoxDriver.MARIONETTE, false);
+//        driver = new FirefoxDriver(caps);
+//        System.out.println(((HasCapabilities) driver).getCapabilities());
+//        wait = new WebDriverWait(driver, 10);
+//    }
+
     @Before
-    //launch firefox by old schema (without geckodriver, till FF v. ESR 45)
+    //launch test in nightly version of FF
     public void start() {
-        DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setCapability(FirefoxDriver.MARIONETTE, false);
-        driver = new FirefoxDriver(caps);
+        FirefoxOptions firefoxOptions = new FirefoxOptions();
+        firefoxOptions.setBinary("C:\\Program Files\\Firefox Nightly\\firefox.exe");
+        driver = new FirefoxDriver(firefoxOptions);
         System.out.println(((HasCapabilities) driver).getCapabilities());
         wait = new WebDriverWait(driver, 10);
     }
+
 
     @Test
     public void loginAsAdmin() {
