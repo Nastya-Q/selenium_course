@@ -36,7 +36,7 @@ public class TestBase {
     public void start() {
         driver = new ChromeDriver();
         //not obvious wait for element present
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 10);
     }
 

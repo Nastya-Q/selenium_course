@@ -13,11 +13,20 @@ public class CheckAdminMenusTest extends TestBase {
         loginAsAdmin();
         List<WebElement> menus = driver.findElements(By.id("app-"));
         for (int i = 0; i < menus.size(); i++) {
-            List<WebElement> allMenus = driver.findElements(By.id("app-"));
-            allMenus.get(i).click();
-            driver.navigate().back();
-        }
+            List<WebElement> mainMenus = driver.findElements(By.id("app-"));
+            mainMenus.get(i).click();
+            List<WebElement> subMenus = driver.findElements(By.cssSelector("li[id^=\"doc\"]"));
 
+            if (subMenus.size() > 0) {
+                for (int j = 0; j < subMenus.size(); j++) {
+                    List<WebElement> allSubMenus = driver.findElements(By.cssSelector("li[id^=\"doc\"]"));
+                    allSubMenus.get(j).click();
+                    isElementPresent(driver, By.tagName("h1"));
+                }
+            }
+
+            isElementPresent(driver, By.tagName("h1"));
+        }
     }
 
     private void loginAsAdmin() {
