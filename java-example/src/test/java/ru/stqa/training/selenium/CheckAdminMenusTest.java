@@ -11,10 +11,13 @@ public class CheckAdminMenusTest extends TestBase {
     @Test
     public void clickAllAdminMenus() {
         loginAsAdmin();
-        List<WebElement> mainMenus = driver.findElements(By.id("app-"));
-        for (WebElement menu: mainMenus) {
-            menu.click();
+        List<WebElement> menus = driver.findElements(By.id("app-"));
+        for (int i = 0; i < menus.size(); i++) {
+            List<WebElement> allMenus = driver.findElements(By.id("app-"));
+            allMenus.get(i).click();
+            driver.navigate().back();
         }
+
     }
 
     private void loginAsAdmin() {
