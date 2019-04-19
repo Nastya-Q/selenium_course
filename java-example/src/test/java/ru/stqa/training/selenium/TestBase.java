@@ -22,7 +22,7 @@ public class TestBase {
 
     boolean isElementPresent(WebDriver driver, By locator) {
         try {
-            wait.until((WebDriver d) -> d.findElement(locator)); //obvious wait will throw selenium TimeoutException
+            //wait.until((WebDriver d) -> d.findElement(locator)); //obvious wait will throw selenium TimeoutException
             driver.findElement(locator);
             return true;
         } catch (InvalidSelectorException ex) {
