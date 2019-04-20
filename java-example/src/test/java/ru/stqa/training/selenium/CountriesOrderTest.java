@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CountriesOrderTest extends TestBase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-    List<String> countriesWithZones= new ArrayList<>();
+public class CountriesOrderTest extends TestBase {
 
     @Test
     public void checkCountriesAndZonesOrdered() {
@@ -20,7 +21,7 @@ public class CountriesOrderTest extends TestBase {
         List<String> countriesFromPage = new ArrayList<>();
         List<String> countriesWithZones= new ArrayList<>();
         driver.get("http://localhost/litecart/admin/?app=countries&doc=countries");
-        //get countries from table
+        //get rows from countries table
         WebElement countryTable = driver.findElement(By.className("dataTable"));
         List<WebElement> countryTableRows = countryTable.findElements(By.className("row"));
 
@@ -31,20 +32,35 @@ public class CountriesOrderTest extends TestBase {
             //checking zones
             Integer zonesCount = Integer.valueOf(row.findElement(By.xpath(".//td[6]")).getText());
             if (zonesCount > 0) {
-                countriesWithZones.add(row.findElement(By.xpath(".//td[5]")).getCssValue("href"));
+                countriesWithZones.add(row.findElement(By.tagName("a")).getAttribute("href"));
             }
         }
 
-        //check countries ordered
+        //check that countries are ordered
         List<String> sortedCountries = new ArrayList<>();
-        for(String s: countriesFromPage){
-            sortedCountries.add(s);
-        }
+        sortedCountries.addAll(countriesFromPage);
         Collections.sort(sortedCountries);
-        Assert.assertTrue(sortedCountries.equals(countriesFromPage));
+        assertEquals(sortedCountries, countriesFromPage);
 
         //go to countries with Zones pages and check that Zones are ordered:
-
+        if (countriesWithZones.size() > 0) {
+            for (int i = 0; i < countriesWithZones.size(); i++) {
+                List<String> zonesFromPage = new ArrayList<>();
+                driver.get(countriesWithZones.get(i));
+                //get table cells with zone names
+                WebElement zonesTable = driver.findElement(By.id("table-zones"));
+                List<WebElement> zoneCells = zonesTable.findElements(By.cssSelector("input[name$=\"][name]\"]"));
+                //get zone name from each row
+                for (WebElement zone: zoneCells) {
+                    zonesFromPage.add(zone.getAttribute("value"));
+                }
+                //check that zones are ordered
+                List<String> sortedZones = new ArrayList<>();
+                sortedZones.addAll(zonesFromPage);
+                Collections.sort(sortedZones);
+                assertEquals(sortedZones, zonesFromPage);
+            }
+        }
     }
 
     private void loginAsAdmin() {
