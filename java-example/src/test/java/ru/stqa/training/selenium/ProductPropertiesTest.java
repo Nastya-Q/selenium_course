@@ -62,8 +62,8 @@ public class ProductPropertiesTest extends TestBase {
         assertTrue(salePriceFontSizeNumber > regularPriceFontSizeNumber);
 
         // Checks for SALE price
-        // check that sale price font is bold
-        assertEquals("700", salePriceFontWeight);
+        // check that sale price font is bold (700 in Chrome, 900 in FireFox)
+        assertTrue(salePriceFontWeight.equals("700") || salePriceFontWeight.equals("900"));
         // check that color for Sale Price is red ( g = b = 0)
         String[] rgbaSalePrice = parseRgbaString(salePriceColor);
         String salePriceColorG = rgbaSalePrice[1];
@@ -110,8 +110,8 @@ public class ProductPropertiesTest extends TestBase {
         assertTrue(salePriceFontSizeNumber > regularPriceFontSizeNumber);
 
         // Checks for SALE price
-        // check that sale price font is bold
-        assertEquals("700", salePriceFontWeight);
+        // check that sale price font is bold (700 in Chrome, 900 in FireFox)
+        assertTrue(salePriceFontWeight.equals("700") || salePriceFontWeight.equals("900"));
         // check that color for Sale Price is red ( g = b = 0)
         String[] rgbaSalePrice = parseRgbaString(salePriceColor);
         String salePriceColorG = rgbaSalePrice[1];
