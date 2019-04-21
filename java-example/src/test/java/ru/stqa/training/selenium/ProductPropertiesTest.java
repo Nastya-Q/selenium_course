@@ -83,6 +83,54 @@ public class ProductPropertiesTest extends TestBase {
                 && regularPriceColorR.equals(regularPriceColorB));
     }
 
+    @Test
+    //test checks Font Styles for regular and sale prices on Product page
+    public void checkPriceStylesOnProductPage() {
+        driver.get("http://localhost/litecart");
+        WebElement campaign = driver.findElement(By.id("box-campaigns"));
+        campaign.findElement(By.className("link")).click();
+        WebElement productBox = driver.findElement(By.id("box-product"));
+        WebElement regularPrice = productBox.findElement(By.className("regular-price"));
+        WebElement salePrice = productBox.findElement(By.className("campaign-price"));
+        //get Regular price properties
+        String regularPriceColor = regularPrice.getCssValue("color");
+        String regularPriceFontSize = regularPrice.getCssValue("font-size");
+        String regularPriceFontStyle = regularPrice.getCssValue("text-decoration");
+
+        //get Sales price properties
+        String salePriceColor = salePrice.getCssValue("color");
+        String salePriceFontSize = salePrice.getCssValue("font-size");
+        String salePriceFontWeight = salePrice.getCssValue("font-weight");
+
+        // check that sale price font is bigger than regular price font
+        float salePriceFontSizeNumber= Float
+                .parseFloat(salePriceFontSize.replaceAll("[^\\.0123456789]",""));
+        float regularPriceFontSizeNumber= Float
+                .parseFloat(regularPriceFontSize.replaceAll("[^\\.0123456789]",""));
+        assertTrue(salePriceFontSizeNumber > regularPriceFontSizeNumber);
+
+        // Checks for SALE price
+        // check that sale price font is bold
+        assertEquals("700", salePriceFontWeight);
+        // check that color for Sale Price is red ( g = b = 0)
+        String[] rgbaSalePrice = parseRgbaString(salePriceColor);
+        String salePriceColorG = rgbaSalePrice[1];
+        String salePriceColorB = rgbaSalePrice[2];
+        assertEquals(salePriceColorG, "0");
+        assertEquals(salePriceColorB, "0");
+
+        // Checks for REGULAR price
+        // check that font is strike-through text
+        assertTrue(regularPriceFontStyle.contains("line-through"));
+        // check that font color is grey (r = g = b)
+        String[] rgbaRegularPrice = parseRgbaString(regularPriceColor);
+        String regularPriceColorR = rgbaRegularPrice[0];
+        String regularPriceColorG = rgbaRegularPrice[1];
+        String regularPriceColorB = rgbaRegularPrice[2];
+        assertTrue(regularPriceColorR.equals(regularPriceColorG)
+                && regularPriceColorR.equals(regularPriceColorB));
+    }
+
     private String[] parseRgbaString(String salePriceColor) {
         String rgbaStringForSalePrice = salePriceColor.replaceAll("[^\\,0123456789]","");
         String[] rgbSalePriceRgbaArray = rgbaStringForSalePrice.split(",");
