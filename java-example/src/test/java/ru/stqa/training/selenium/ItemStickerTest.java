@@ -16,8 +16,7 @@ public class ItemStickerTest extends TestBase {
         int elementsWithMoreThanOneSticker = 0;
 
         driver.get("http://localhost/litecart");
-        List<WebElement> items = driver.findElements(By.className("image-wrapper"));
-
+        List<WebElement> items = driver.findElements(By.cssSelector("[class^=\"product\"]"));
         for (WebElement item: items) {
             List<WebElement> stickers = item.findElements(By.cssSelector("[class^=\"sticker\"]"));
             if (stickers.size() == 0) {
