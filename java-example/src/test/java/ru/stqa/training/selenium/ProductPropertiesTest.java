@@ -55,10 +55,10 @@ public class ProductPropertiesTest extends TestBase {
         String salePriceFontWeight = salePrice.getCssValue("font-weight");
 
         // check that sale price font is bigger than regular price font
-        float salePriceFontSizeNumber= Float
-                .parseFloat(salePriceFontSize.replaceAll("[^\\.0123456789]",""));
-        float regularPriceFontSizeNumber= Float
-                .parseFloat(regularPriceFontSize.replaceAll("[^\\.0123456789]",""));
+        float salePriceFontSizeNumber = Float
+                .parseFloat(salePriceFontSize.replaceAll("[^\\.0123456789]", ""));
+        float regularPriceFontSizeNumber = Float
+                .parseFloat(regularPriceFontSize.replaceAll("[^\\.0123456789]", ""));
         assertTrue(salePriceFontSizeNumber > regularPriceFontSizeNumber);
 
         // Checks for SALE price
@@ -68,8 +68,9 @@ public class ProductPropertiesTest extends TestBase {
         String[] rgbaSalePrice = parseRgbaString(salePriceColor);
         String salePriceColorG = rgbaSalePrice[1];
         String salePriceColorB = rgbaSalePrice[2];
-        assertEquals(salePriceColorG, "0");
-        assertEquals(salePriceColorB, "0");
+        String salePriceColorR = rgbaSalePrice[0];
+        assertTrue(salePriceColorG.equals("0") && salePriceColorB.equals("0")
+                && !salePriceColorR.equals("0"));
 
         // Checks for REGULAR price
         // check that font is strike-through text
@@ -103,22 +104,22 @@ public class ProductPropertiesTest extends TestBase {
         String salePriceFontWeight = salePrice.getCssValue("font-weight");
 
         // check that sale price font is bigger than regular price font
-        float salePriceFontSizeNumber= Float
-                .parseFloat(salePriceFontSize.replaceAll("[^\\.0123456789]",""));
-        float regularPriceFontSizeNumber= Float
-                .parseFloat(regularPriceFontSize.replaceAll("[^\\.0123456789]",""));
+        float salePriceFontSizeNumber = Float
+                .parseFloat(salePriceFontSize.replaceAll("[^\\.0123456789]", ""));
+        float regularPriceFontSizeNumber = Float
+                .parseFloat(regularPriceFontSize.replaceAll("[^\\.0123456789]", ""));
         assertTrue(salePriceFontSizeNumber > regularPriceFontSizeNumber);
 
         // Checks for SALE price
         // check that sale price font is bold (700 in Chrome, 900 in FireFox)
         assertTrue(salePriceFontWeight.equals("700") || salePriceFontWeight.equals("900"));
-        // check that color for Sale Price is red ( g = b = 0)
+        // check that color for Sale Price is red ( g = b = 0, r != 0)
         String[] rgbaSalePrice = parseRgbaString(salePriceColor);
         String salePriceColorG = rgbaSalePrice[1];
         String salePriceColorB = rgbaSalePrice[2];
-        assertEquals(salePriceColorG, "0");
-        assertEquals(salePriceColorB, "0");
-
+        String salePriceColorR = rgbaSalePrice[0];
+        assertTrue(salePriceColorG.equals("0") && salePriceColorB.equals("0")
+                && !salePriceColorR.equals("0"));
         // Checks for REGULAR price
         // check that font is strike-through text
         assertTrue(regularPriceFontStyle.contains("line-through"));
@@ -132,7 +133,7 @@ public class ProductPropertiesTest extends TestBase {
     }
 
     private String[] parseRgbaString(String salePriceColor) {
-        String rgbaStringForSalePrice = salePriceColor.replaceAll("[^\\,0123456789]","");
+        String rgbaStringForSalePrice = salePriceColor.replaceAll("[^\\,0123456789]", "");
         String[] rgbSalePriceRgbaArray = rgbaStringForSalePrice.split(",");
         return rgbSalePriceRgbaArray;
     }
