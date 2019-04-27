@@ -34,8 +34,8 @@ public class ShopCartAddRemoveProductTest extends TestBase {
         //remove products from the shopcart
         driver.get("http://localhost/litecart");
         driver.findElement(By.linkText("Checkout »")).click();
-        WebElement checkoutSummaryTable = driver.findElement(By.className("dataTable"));
         while (driver.findElements(By.name("remove_cart_item")).size() > 0) {
+            WebElement checkoutSummaryTable = driver.findElement(By.className("dataTable"));
             List<WebElement> elementsToRemove = driver.findElements(By.name("remove_cart_item"));
             wait.until(ExpectedConditions.elementToBeClickable(elementsToRemove.get(0))).click();
             checkoutSummaryTable.getSize();// stale element exception
