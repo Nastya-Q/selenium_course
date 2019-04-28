@@ -1,5 +1,6 @@
 package ru.stqa.training.selenium;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -34,10 +35,25 @@ public class ShopCartAddRemoveProductTest extends TestBase {
         //remove products from the shopcart
         driver.get("http://localhost/litecart");
         driver.findElement(By.linkText("Checkout »")).click();
+        //until there are elements to remove:
         while (driver.findElements(By.name("remove_cart_item")).size() > 0) {
-            WebElement checkoutSummaryTable = driver.findElement(By.className("dataTable"));
+            WebElement checkoutTableBeforeItemRemoval = driver.findElement(By.className("dataTable"));
+            int itemRowsBeforeRemoval = checkoutTableBeforeItemRemoval
+                    .findElements(By.className("item")).size();
             List<WebElement> elementsToRemove = driver.findElements(By.name("remove_cart_item"));
             wait.until(ExpectedConditions.elementToBeClickable(elementsToRemove.get(0))).click();
+            //wait until old table disappears
+            wait.until(ExpectedConditions.stalenessOf(checkoutTableBeforeItemRemoval));
+            //if it's not the last element to remove and table should still exist:
+            if (driver.findElements(By.name("remove_cart_item")).size() > 0) {
+                WebElement checkoutTableAfterItemRemoval = driver.findElement(By.className("dataTable"));
+                int itemRowsAfterRemoval = checkoutTableBeforeItemRemoval
+                        .findElements(By.className("item")).size();
+                Assert.assertTrue( (itemRowsBeforeRemoval - itemRowsAfterRemoval) == 1);
+            } else {
+
+            }
+
             checkoutSummaryTable.getSize();// stale element exception
         }
 
