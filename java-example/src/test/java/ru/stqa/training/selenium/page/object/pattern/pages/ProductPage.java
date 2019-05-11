@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
-import ru.stqa.training.selenium.ShopObjects.Product;
 
 public class ProductPage extends Page {
 
@@ -23,7 +22,6 @@ public class ProductPage extends Page {
         }
         addToCartButton.click();
     }
-
 
     @FindBy(name = "add_cart_product")
     public WebElement addToCartButton;
